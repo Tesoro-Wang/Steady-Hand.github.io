@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:'#A0D2DB',secondary:'#FFB347'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+            background-color: #F8F9FA;
+        }
+        .list-item {
+            transition: background-color 0.2s;
+        }
+        .list-item:active {
+            background-color: #F0F0F0;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 w-full bg-primary text-white z-10 px-4 py-3 flex items-center justify-center">
+        <h1 class="text-lg font-medium">个人中心</h1>
+    </header>
+
+    <!-- 内容区域 -->
+    <main class="pt-[60px] pb-[70px]">
+        <!-- 个人信息区域 -->
+        <div class="bg-primary/20 p-5 flex flex-col items-center">
+            <div class="w-20 h-20 rounded-full bg-white border-2 border-primary flex items-center justify-center overflow-hidden mb-3">
+                <i class="ri-user-3-fill ri-3x text-primary"></i>
+            </div>
+            <h2 class="text-lg font-medium text-gray-800">陈佳怡</h2>
+            <p class="text-sm text-gray-500">ID: 138****5678</p>
+            <div class="mt-2 flex items-center text-sm">
+                <div class="w-5 h-5 flex items-center justify-center">
+                    <i class="ri-bluetooth-connect-line text-green-500"></i>
+                </div>
+                <span class="ml-1 text-green-500">设备已连接</span>
+            </div>
+        </div>
+
+        <!-- 功能列表区域 -->
+        <!-- 第一组：核心功能与设备 -->
+        <div class="mt-3 bg-white rounded-md mx-3 overflow-hidden shadow-sm">
+            <div class="list-item flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-user-settings-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">个人信息</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <div class="list-item flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-device-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">我的设备</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <div class="list-item flex items-center px-4 py-3 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-secondary">
+                    <i class="ri-phone-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">紧急联系人</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第二组：数据与偏好设置 -->
+        <div class="mt-3 bg-white rounded-md mx-3 overflow-hidden shadow-sm">
+            <div class="list-item flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-download-cloud-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">数据导出</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <div class="list-item flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-notification-3-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">通知设置</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <div class="list-item flex items-center px-4 py-3 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-eye-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">显示设置</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 第三组：支持与关于 -->
+        <div class="mt-3 bg-white rounded-md mx-3 overflow-hidden shadow-sm">
+            <div class="list-item flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-question-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">帮助与反馈</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <div class="list-item flex items-center px-4 py-3 border-b border-gray-100 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-book-open-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">用户手册</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+            
+            <div class="list-item flex items-center px-4 py-3 cursor-pointer">
+                <div class="w-8 h-8 flex items-center justify-center text-primary">
+                    <i class="ri-information-line ri-lg"></i>
+                </div>
+                <span class="ml-3 text-gray-800">关于我们</span>
+                <div class="ml-auto w-6 h-6 flex items-center justify-center text-gray-400">
+                    <i class="ri-arrow-right-s-line"></i>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 退出登录按钮 -->
+        <div class="flex justify-center mt-8 mb-6">
+            <button id="logoutBtn" class="border border-[#FF6B6B] text-[#FF6B6B] px-6 py-2.5 rounded-button w-[280px] font-medium cursor-pointer">退出登录</button>
+        </div>
+    </main>
+
+<!-- 底部导航栏统一代码（粘贴到每个HTML文件） -->
+<div class="fixed bottom-0 w-full bg-white border-t border-gray-200 grid grid-cols-5 h-16 z-50">
+  <!-- 今日 -->
+  <a href="震颤监测与报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-home-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">今日</span>
+  </a>
+
+  <!-- 历史 -->
+  <a href="月度震颤报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-history-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">历史</span>
+  </a>
+
+  <!-- 警报 -->
+  <a href="摔倒警报记录.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-alert-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">警报</span>
+  </a>
+
+  <!-- 用药 -->
+  <a href="用药管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-medicine-bottle-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">用药</span>
+  </a>
+
+  <!-- 我的 -->
+  <a href="个人信息与设备管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-user-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">我的</span>
+  </a>
+</div>
+</footer>
+
+    <!-- 退出登录确认弹窗 -->
+    <div id="logoutModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20 hidden">
+        <div class="bg-white rounded-lg w-[300px] overflow-hidden">
+            <div class="p-5">
+                <h3 class="text-center text-lg font-medium mb-3">确认退出</h3>
+                <p class="text-center text-gray-600">您确定要退出登录吗？</p>
+            </div>
+            <div class="flex border-t border-gray-200">
+                <button id="cancelLogout" class="flex-1 py-3 text-gray-500 font-medium cursor-pointer">取消</button>
+                <div class="w-px bg-gray-200"></div>
+                <button id="confirmLogout" class="flex-1 py-3 text-primary font-medium cursor-pointer">确定</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            const logoutModal = document.getElementById('logoutModal');
+            const cancelLogout = document.getElementById('cancelLogout');
+            const confirmLogout = document.getElementById('confirmLogout');
+            
+            logoutBtn.addEventListener('click', function() {
+                logoutModal.classList.remove('hidden');
+            });
+            
+            cancelLogout.addEventListener('click', function() {
+                logoutModal.classList.add('hidden');
+            });
+            
+            confirmLogout.addEventListener('click', function() {
+                logoutModal.classList.add('hidden');
+                // 这里添加退出登录的逻辑
+                console.log('用户已退出登录');
+            });
+        });
+    </script>
+</body>
+</html>

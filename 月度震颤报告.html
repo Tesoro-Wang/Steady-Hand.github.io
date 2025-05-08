@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>月度震颤报告</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#A0D2DB',secondary:'#FFB347'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+background-color: #F5F7FA;
+}
+.progress-bar {
+height: 8px;
+border-radius: 4px;
+background-color: #E5E7EB;
+}
+.progress-value {
+height: 8px;
+border-radius: 4px;
+}
+</style>
+</head>
+<body class="bg-white text-gray-800">
+<!-- 顶部导航栏 -->
+<header class="bg-primary text-white p-4 fixed w-full top-0 z-10 flex justify-between items-center">
+<div class="font-['Pacifico'] text-xl">Steady Hand</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line ri-lg"></i>
+</div>
+</header>
+<!-- 主要内容区域 -->
+<main class="pt-16 pb-16 px-4">
+<!-- 标题区域 -->
+<div class="mt-4 mb-6">
+<h1 class="text-xl font-medium">上月震颤报告</h1>
+<p class="text-gray-500 text-sm mt-1">2025年4月 1日 - 2025年4月 30日</p>
+</div>
+<!-- 核心数据总结区 -->
+<div class="grid grid-cols-2 gap-4 mb-6">
+<!-- 总震颤时长 -->
+<div class="bg-white rounded shadow p-4">
+<p class="text-gray-500 text-xs">总震颤时长</p>
+<p class="text-xl font-medium mt-1">65小时</p>
+<p class="text-xs text-green-500 mt-1">
+<i class="ri-arrow-down-line ri-sm"></i> 比上月减少 10 小时
+</p>
+</div>
+<!-- 日均震颤时长 -->
+<div class="bg-white rounded shadow p-4">
+<p class="text-gray-500 text-xs">日均震颤时长</p>
+<p class="text-xl font-medium mt-1">2小时10分</p>
+<p class="text-xs text-green-500 mt-1">
+<i class="ri-arrow-down-line ri-sm"></i> 比上月减少 20 分钟
+</p>
+</div>
+<!-- 月平均震颤强度 -->
+<div class="bg-white rounded shadow p-4">
+<p class="text-gray-500 text-xs">月平均震颤强度</p>
+<p class="text-xl font-medium mt-1">中低度</p>
+<div class="mt-1 progress-bar">
+<div class="progress-value bg-primary" style="width: 50%"></div>
+</div>
+<p class="text-xs text-gray-500 mt-1">等级 2.5/5</p>
+</div>
+<!-- 震颤最频繁日期 -->
+<div class="bg-white rounded shadow p-4">
+<p class="text-gray-500 text-xs">震颤高发日</p>
+<p class="text-xl font-medium mt-1">4月15日</p>
+<p class="text-xs text-secondary mt-1">当日震颤时长 4小时20分</p>
+</div>
+</div>
+<!-- 月度震颤趋势图 -->
+<div class="bg-white rounded shadow p-4 mb-6">
+<div class="flex justify-between items-center mb-4">
+<h2 class="text-base font-medium">月度震颤趋势</h2>
+<div class="flex gap-2">
+<button class="text-xs px-3 py-1 bg-primary text-white rounded-full !rounded-button cursor-pointer">时长</button>
+<button class="text-xs px-3 py-1 bg-gray-100 text-gray-600 rounded-full !rounded-button cursor-pointer">强度</button>
+</div>
+</div>
+<div id="trendChart" class="w-full h-64"></div>
+</div>
+<!-- 震颤详情分析 -->
+<div class="bg-white rounded shadow p-4 mb-6">
+<h2 class="text-base font-medium mb-4">震颤详情分析</h2>
+<!-- 震颤天数 -->
+<div class="mb-4">
+<div class="flex justify-between mb-1">
+<p class="text-sm text-gray-600">本月震颤天数</p>
+<p class="text-sm font-medium">28天 / 共30天</p>
+</div>
+<div class="progress-bar">
+<div class="progress-value bg-secondary" style="width: 93.3%"></div>
+</div>
+</div>
+<!-- 震颤强度分布 -->
+<div class="mb-4">
+<p class="text-sm text-gray-600 mb-2">震颤强度分布</p>
+<div class="grid grid-cols-5 gap-2 text-center">
+<div>
+<div class="h-16 bg-gray-100 rounded-t flex items-end">
+<div class="w-full bg-primary bg-opacity-20 h-3 rounded-t"></div>
+</div>
+<p class="text-xs mt-1">无</p>
+</div>
+<div>
+<div class="h-16 bg-gray-100 rounded-t flex items-end">
+<div class="w-full bg-primary bg-opacity-30 h-6 rounded-t"></div>
+</div>
+<p class="text-xs mt-1">轻微</p>
+</div>
+<div>
+<div class="h-16 bg-gray-100 rounded-t flex items-end">
+<div class="w-full bg-primary bg-opacity-50 h-10 rounded-t"></div>
+</div>
+<p class="text-xs mt-1">中度</p>
+</div>
+<div>
+<div class="h-16 bg-gray-100 rounded-t flex items-end">
+<div class="w-full bg-primary bg-opacity-70 h-5 rounded-t"></div>
+</div>
+<p class="text-xs mt-1">较重</p>
+</div>
+<div>
+<div class="h-16 bg-gray-100 rounded-t flex items-end">
+<div class="w-full bg-primary bg-opacity-90 h-2 rounded-t"></div>
+</div>
+<p class="text-xs mt-1">严重</p>
+</div>
+</div>
+</div>
+<!-- 震颤时段分布 -->
+<div>
+<p class="text-sm text-gray-600 mb-2">震颤时段分布</p>
+<div id="timeDistributionChart" class="w-full h-40"></div>
+</div>
+</div>
+<!-- 环比分析 -->
+<div class="bg-white rounded shadow p-4 mb-6">
+<h2 class="text-base font-medium mb-4">环比分析</h2>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<p class="text-xs text-gray-500">总震颤时长</p>
+<div class="flex items-end gap-2 mt-1">
+<p class="text-base font-medium">65小时</p>
+<p class="text-xs text-green-500 mb-0.5">
+<i class="ri-arrow-down-line ri-sm"></i> -13.3%
+</p>
+</div>
+</div>
+<div>
+<p class="text-xs text-gray-500">日均强度</p>
+<div class="flex items-end gap-2 mt-1">
+<p class="text-base font-medium">2.5/5</p>
+<p class="text-xs text-green-500 mb-0.5">
+<i class="ri-arrow-down-line ri-sm"></i> -0.3
+</p>
+</div>
+</div>
+<div>
+<p class="text-xs text-gray-500">震颤高发时段</p>
+<p class="text-base font-medium mt-1">14:00-16:00</p>
+</div>
+<div>
+<p class="text-xs text-gray-500">无震颤天数</p>
+<div class="flex items-end gap-2 mt-1">
+<p class="text-base font-medium">2天</p>
+<p class="text-xs text-green-500 mb-0.5">
+<i class="ri-arrow-up-line ri-sm"></i> +1天
+</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 建议与提醒 -->
+<div class="bg-white rounded shadow p-4 mb-6">
+<h2 class="text-base font-medium mb-3">建议与提醒</h2>
+<div class="bg-blue-50 p-3 rounded">
+<div class="flex gap-2">
+<div class="w-6 h-6 flex items-center justify-center text-primary">
+<i class="ri-lightbulb-line ri-lg"></i>
+</div>
+<div>
+<p class="text-sm">根据本月数据分析，建议在下午 14:00-16:00 时段注意休息，避免过度疲劳。</p>
+</div>
+</div>
+</div>
+<div class="mt-3 bg-blue-50 p-3 rounded">
+<div class="flex gap-2">
+<div class="w-6 h-6 flex items-center justify-center text-primary">
+<i class="ri-calendar-check-line ri-lg"></i>
+</div>
+<div>
+<p class="text-sm">本月震颤情况整体呈下降趋势，请继续保持良好的用药习惯和生活规律。</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- 底部导航栏统一代码（粘贴到每个HTML文件） -->
+<div class="fixed bottom-0 w-full bg-white border-t border-gray-200 grid grid-cols-5 h-16 z-50">
+  <!-- 今日 -->
+  <a href="震颤监测与报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-home-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">今日</span>
+  </a>
+
+  <!-- 历史 -->
+  <a href="月度震颤报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-history-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">历史</span>
+  </a>
+
+  <!-- 警报 -->
+  <a href="摔倒警报记录.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-alert-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">警报</span>
+  </a>
+
+  <!-- 用药 -->
+  <a href="用药管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-medicine-bottle-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">用药</span>
+  </a>
+
+  <!-- 我的 -->
+  <a href="个人信息与设备管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-user-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">我的</span>
+  </a>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// 月度震颤趋势图
+const trendChart = echarts.init(document.getElementById('trendChart'));
+const trendOption = {
+grid: {
+left: '3%',
+right: '4%',
+bottom: '3%',
+top: '3%',
+containLabel: true
+},
+xAxis: {
+type: 'category',
+data: ['1', '5', '10', '15', '20', '25', '30'],
+axisLine: {
+lineStyle: {
+color: '#E5E7EB'
+}
+},
+axisLabel: {
+color: '#9CA3AF',
+fontSize: 10
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+axisTick: {
+show: false
+},
+splitLine: {
+lineStyle: {
+color: '#E5E7EB'
+}
+},
+axisLabel: {
+color: '#9CA3AF',
+fontSize: 10
+}
+},
+series: [{
+data: [0.8, 1.2, 3.5, 4.3, 2.5, 1.8, 1.0],
+type: 'line',
+smooth: true,
+symbol: 'circle',
+symbolSize: 6,
+itemStyle: {
+color: '#75AABC'
+},
+lineStyle: {
+width: 3,
+color: '#75AABC'
+},
+areaStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+{ offset: 0, color: 'rgba(117, 170, 188, 0.5)' },
+{ offset: 1, color: 'rgba(117, 170, 188, 0.05)' }
+])
+},
+markPoint: {
+data: [
+{ type: 'max', name: '最大值', symbolSize: 8, itemStyle: { color: '#FFB347' } }
+]
+}
+}]
+};
+trendChart.setOption(trendOption);
+// 震颤时段分布图
+const timeDistributionChart = echarts.init(document.getElementById('timeDistributionChart'));
+const timeDistOption = {
+grid: {
+left: '3%',
+right: '4%',
+bottom: '15%',
+top: '3%',
+containLabel: true
+},
+xAxis: {
+type: 'category',
+data: ['0-3', '3-6', '6-9', '9-12', '12-15', '15-18', '18-21', '21-24'],
+axisLine: {
+lineStyle: {
+color: '#E5E7EB'
+}
+},
+axisLabel: {
+color: '#9CA3AF',
+fontSize: 10
+}
+},
+yAxis: {
+type: 'value',
+axisLine: {
+show: false
+},
+axisTick: {
+show: false
+},
+splitLine: {
+lineStyle: {
+color: '#E5E7EB'
+}
+},
+axisLabel: {
+color: '#9CA3AF',
+fontSize: 10
+}
+},
+series: [{
+data: [2, 1, 3, 8, 12, 10, 6, 4],
+type: 'bar',
+barWidth: '60%',
+itemStyle: {
+color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+{ offset: 0, color: 'rgba(117, 170, 188, 0.8)' },
+{ offset: 1, color: 'rgba(117, 170, 188, 0.3)' }
+]),
+borderRadius: [4, 4, 0, 0]
+}
+}]
+};
+timeDistributionChart.setOption(timeDistOption);
+// 响应式调整
+window.addEventListener('resize', function() {
+trendChart.resize();
+timeDistributionChart.resize();
+});
+});
+</script>
+</body>
+</html>

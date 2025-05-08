@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>摔倒警报记录</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#A0D2DB',secondary:'#FFB347'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f8f9fa;
+}
+</style>
+</head>
+<body class="bg-white text-gray-800">
+<!-- 顶部导航栏 -->
+<div class="fixed top-0 w-full bg-primary text-gray-800 shadow-md z-10">
+<div class="px-4 py-3 flex justify-between items-center">
+<h1 class="text-lg font-semibold">摔倒警报记录</h1>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line ri-lg"></i>
+</div>
+</div>
+<!-- 状态指示 -->
+<div class="px-4 py-2 bg-green-100 text-green-800 flex items-center">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-shield-check-line"></i>
+</div>
+<span>当前安全</span>
+</div>
+</div>
+<!-- 主要内容区域 -->
+<div class="mt-24 mb-20 px-4">
+<!-- 摔倒事件列表 -->
+<div class="space-y-4">
+<!-- 摔倒事件 1 -->
+<div class="bg-white rounded-lg shadow-sm p-4 flex items-center cursor-pointer" id="event1">
+<div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+<i class="ri-alert-line text-red-500 ri-lg"></i>
+</div>
+<div class="flex-1">
+<div class="font-semibold text-gray-800">2025年5月8日 09:15</div>
+<div class="text-sm text-gray-600">在 北京市海淀区中关村南大街5号</div>
+<div class="text-xs mt-1 text-red-500">已发送通知给紧急联系人</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+</div>
+</div>
+<!-- 摔倒事件 2 -->
+<div class="bg-white rounded-lg shadow-sm p-4 flex items-center cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+<i class="ri-alert-line text-red-500 ri-lg"></i>
+</div>
+<div class="flex-1">
+<div class="font-semibold text-gray-800">2025年5月2日 14:22</div>
+<div class="text-sm text-gray-600">在 北京市朝阳区建国路88号</div>
+<div class="text-xs mt-1 text-green-500">用户已确认安全</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+</div>
+</div>
+<!-- 摔倒事件 3 -->
+<div class="bg-white rounded-lg shadow-sm p-4 flex items-center cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+<i class="ri-alert-line text-red-500 ri-lg"></i>
+</div>
+<div class="flex-1">
+<div class="font-semibold text-gray-800">2025年4月25日 18:05</div>
+<div class="text-sm text-gray-600">在 北京市西城区西单北大街176号</div>
+<div class="text-xs mt-1 text-orange-500">等待响应</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+</div>
+</div>
+<!-- 摔倒事件 4 -->
+<div class="bg-white rounded-lg shadow-sm p-4 flex items-center cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+<i class="ri-alert-line text-red-500 ri-lg"></i>
+</div>
+<div class="flex-1">
+<div class="font-semibold text-gray-800">2025年4月18日 10:37</div>
+<div class="text-sm text-gray-600">在 北京市东城区王府井大街15号</div>
+<div class="text-xs mt-1 text-green-500">用户已确认安全</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+</div>
+</div>
+<!-- 摔倒事件 5 -->
+<div class="bg-white rounded-lg shadow-sm p-4 flex items-center cursor-pointer">
+<div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
+<i class="ri-alert-line text-red-500 ri-lg"></i>
+</div>
+<div class="flex-1">
+<div class="font-semibold text-gray-800">2025年4月10日 16:48</div>
+<div class="text-sm text-gray-600">在 北京市丰台区丰台南路58号</div>
+<div class="text-xs mt-1 text-green-500">用户已确认安全</div>
+</div>
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-arrow-right-s-line text-gray-400"></i>
+</div>
+</div>
+</div>
+</div>
+<!-- 底部导航栏统一代码（粘贴到每个HTML文件） -->
+<div class="fixed bottom-0 w-full bg-white border-t border-gray-200 grid grid-cols-5 h-16 z-50">
+  <!-- 今日 -->
+  <a href="震颤监测与报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-home-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">今日</span>
+  </a>
+
+  <!-- 历史 -->
+  <a href="月度震颤报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-history-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">历史</span>
+  </a>
+
+  <!-- 警报 -->
+  <a href="摔倒警报记录.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-alert-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">警报</span>
+  </a>
+
+  <!-- 用药 -->
+  <a href="用药管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-medicine-bottle-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">用药</span>
+  </a>
+
+  <!-- 我的 -->
+  <a href="个人信息与设备管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-user-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">我的</span>
+  </a>
+</div>
+<!-- 摔倒事件详情弹窗 -->
+<div id="eventDetail" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden flex items-center justify-center">
+<div class="bg-white rounded-lg w-full max-w-md mx-4 h-auto max-h-[90vh] overflow-y-auto">
+<!-- 详情页头部 -->
+<div class="p-4 border-b border-gray-200 flex items-center">
+<div class="w-8 h-8 flex items-center justify-center cursor-pointer" id="closeDetail">
+<i class="ri-arrow-left-line"></i>
+</div>
+<h2 class="text-lg font-semibold ml-2">警报详情</h2>
+</div>
+<!-- 详情内容 -->
+<div class="p-4">
+<div class="mb-4">
+<div class="text-sm text-gray-600">摔倒时间：</div>
+<div class="font-semibold">2025年5月8日 09:15:32</div>
+</div>
+<!-- 地图区域 -->
+<div class="mb-4 rounded-lg overflow-hidden h-48 relative">
+<img src="https://public.readdy.ai/gen_page/map_placeholder_1280x720.png" class="absolute w-full h-full object-cover" alt="地图位置">
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-10 h-10 bg-red-500 rounded-full flex items-center justify-center animate-pulse">
+<i class="ri-map-pin-fill text-white ri-lg"></i>
+</div>
+</div>
+</div>
+<div class="mb-4">
+<div class="text-sm text-gray-600">位置：</div>
+<div class="font-medium">北京市海淀区中关村南大街5号 科技广场附近</div>
+</div>
+<div class="mb-4 flex items-center">
+<div class="w-6 h-6 flex items-center justify-center mr-2">
+<i class="ri-battery-charge-line text-green-500"></i>
+</div>
+<span>设备电量：75%</span>
+</div>
+<!-- 已通知联系人 -->
+<div class="mb-4">
+<div class="text-sm text-gray-600 mb-2">已通知联系人：</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+<div>
+<div class="font-medium">张雨晨（妻子）</div>
+<div class="text-sm text-gray-500">138****5678</div>
+</div>
+<div class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">已读</div>
+</div>
+<div class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
+<div>
+<div class="font-medium">李明（儿子）</div>
+<div class="text-sm text-gray-500">139****1234</div>
+</div>
+<div class="text-xs px-2 py-1 bg-blue-100 text-blue-700 rounded-full">已送达</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 操作按钮 -->
+<div class="p-4 border-t border-gray-200 space-y-3">
+<button class="w-full py-3 bg-primary text-white font-medium rounded-button flex items-center justify-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-navigation-fill"></i>
+</div>
+导航到该位置
+</button>
+<div class="grid grid-cols-2 gap-3">
+<button class="py-3 bg-gray-100 text-gray-700 font-medium rounded-button flex items-center justify-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-phone-fill"></i>
+</div>
+再次联系
+</button>
+<button class="py-3 bg-gray-100 text-gray-700 font-medium rounded-button flex items-center justify-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-share-line"></i>
+</div>
+分享位置
+</button>
+</div>
+<button class="w-full py-3 bg-red-100 text-red-600 font-medium rounded-button flex items-center justify-center">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-check-double-line"></i>
+</div>
+标记为已处理
+</button>
+</div>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// 点击事件1显示详情
+document.getElementById('event1').addEventListener('click', function() {
+document.getElementById('eventDetail').classList.remove('hidden');
+document.getElementById('eventDetail').classList.add('flex');
+document.body.style.overflow = 'hidden';
+});
+// 关闭详情页
+document.getElementById('closeDetail').addEventListener('click', function() {
+document.getElementById('eventDetail').classList.add('hidden');
+document.getElementById('eventDetail').classList.remove('flex');
+document.body.style.overflow = 'auto';
+});
+});
+</script>
+</body>
+</html>

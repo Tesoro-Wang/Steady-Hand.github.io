@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>帕金森震颤监测</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#A0D2DB',secondary:'#FFB347'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+background-color: #F8F9FA;
+}
+.chart-container {
+width: 100%;
+height: 200px;
+}
+</style>
+</head>
+<body class="bg-gray-50">
+<!-- 顶部导航栏 -->
+<nav class="fixed top-0 w-full bg-primary text-white shadow-md z-50">
+<div class="flex items-center justify-between px-4 py-3">
+<div class="flex items-center">
+<span class="text-xl font-['Pacifico']">Steady Hand</span>
+</div>
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 flex items-center justify-center">
+<i class="ri-notification-3-line ri-lg"></i>
+</div>
+</div>
+</div>
+</nav>
+<!-- 主要内容区域 -->
+<main class="pt-16 pb-20 px-4">
+<!-- 日期显示 -->
+<div class="mb-4 mt-2">
+<h1 class="text-xl font-medium text-gray-800">昨日震颤报告</h1>
+<p class="text-sm text-gray-500">昨天 2025年5月7日 星期三</p>
+</div>
+<!-- 核心数据卡片区 -->
+<div class="grid grid-cols-3 gap-3 mb-6">
+<!-- 总震颤时长 -->
+<div class="bg-white rounded shadow-sm p-3">
+<p class="text-xs text-gray-500 mb-1">总震颤时长</p>
+<p class="text-lg font-semibold text-gray-800">2小时35分</p>
+<p class="text-xs text-green-500 flex items-center">
+<i class="ri-arrow-down-s-line ri-sm mr-1"></i>
+较前日 -15分钟
+</p>
+</div>
+<!-- 平均震颤强度 -->
+<div class="bg-white rounded shadow-sm p-3">
+<p class="text-xs text-gray-500 mb-1">平均震颤强度</p>
+<p class="text-lg font-semibold text-gray-800">中度</p>
+<div class="mt-1 h-2 w-full bg-gray-200 rounded-full">
+<div class="h-2 bg-primary rounded-full" style="width: 60%;"></div>
+</div>
+<p class="text-xs text-gray-500 mt-1">等级 3/5</p>
+</div>
+<!-- 峰值震颤强度 -->
+<div class="bg-white rounded shadow-sm p-3">
+<p class="text-xs text-gray-500 mb-1">峰值震颤强度</p>
+<p class="text-lg font-semibold text-gray-800">重度</p>
+<p class="text-xs text-gray-500">发生于 14:30</p>
+<p class="text-xs text-gray-500">等级 5/5</p>
+</div>
+</div>
+<!-- 震颤强度-时间分布图区域 -->
+<div class="bg-white rounded shadow-sm p-4 mb-6">
+<h3 class="text-base font-medium text-gray-700 mb-3">昨日震颤强度-时间分布</h3>
+<div id="tremor-chart" class="chart-container"></div>
+<div class="flex justify-between text-xs text-gray-500 mt-2">
+<span>00:00</span>
+<span>06:00</span>
+<span>12:00</span>
+<span>18:00</span>
+<span>24:00</span>
+</div>
+<div class="flex items-center mt-4 text-xs text-gray-500">
+<div class="w-3 h-3 rounded-full bg-primary mr-1"></div>
+<span>震颤强度</span>
+<div class="w-3 h-3 rounded-full bg-secondary ml-4 mr-1"></div>
+<span>用药时间点</span>
+</div>
+</div>
+<!-- 月度报告摘要 -->
+<div class="bg-white rounded shadow-sm p-4 mb-6">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-base font-medium text-gray-700">本月震颤趋势</h3>
+<button class="text-primary text-sm font-medium cursor-pointer flex items-center">
+查看详情
+<i class="ri-arrow-right-s-line ri-sm ml-1"></i>
+</button>
+</div>
+<div id="monthly-chart" class="chart-container"></div>
+<div class="flex justify-between text-xs text-gray-500 mt-2">
+<span>5月1日</span>
+<span>5月8日</span>
+<span>5月15日</span>
+<span>5月22日</span>
+<span>5月31日</span>
+</div>
+</div>
+<!-- 设备信息 -->
+<div class="bg-white rounded shadow-sm p-4 mb-6">
+<h3 class="text-base font-medium text-gray-700 mb-3">设备信息</h3>
+<div class="flex justify-between items-center py-2 border-b border-gray-100">
+<span class="text-sm text-gray-600">设备佩戴时长</span>
+<span class="text-sm text-gray-800">23小时</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-gray-100">
+<span class="text-sm text-gray-600">有效监测时长</span>
+<span class="text-sm text-gray-800">20小时</span>
+</div>
+<div class="flex justify-between items-center py-2 border-b border-gray-100">
+<span class="text-sm text-gray-600">电池电量</span>
+<div class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-1">
+<i class="ri-battery-charge-line text-green-500"></i>
+</div>
+<span class="text-sm text-gray-800">85%</span>
+</div>
+</div>
+<div class="flex justify-between items-center py-2">
+<span class="text-sm text-gray-600">设备状态</span>
+<span class="text-sm text-green-500">正常工作中</span>
+</div>
+<p class="text-xs text-gray-500 mt-3">数据仅供参考，请结合医生建议。</p>
+</div>
+<!-- 用药提醒 -->
+<div class="bg-white rounded shadow-sm p-4 mb-6">
+<div class="flex justify-between items-center mb-3">
+<h3 class="text-base font-medium text-gray-700">今日用药提醒</h3>
+<button class="text-primary text-sm font-medium cursor-pointer">
+查看全部
+</button>
+</div>
+<div class="bg-gray-50 rounded p-3 mb-3 border-l-4 border-primary">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-sm font-medium text-gray-800">左旋多巴 100mg</p>
+<p class="text-xs text-gray-500">早餐后服用</p>
+</div>
+<div class="flex items-center">
+<span class="text-sm text-gray-600 mr-2">08:00</span>
+<div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+<i class="ri-check-line text-green-500"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded p-3 mb-3 border-l-4 border-primary">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-sm font-medium text-gray-800">左旋多巴 100mg</p>
+<p class="text-xs text-gray-500">午餐后服用</p>
+</div>
+<div class="flex items-center">
+<span class="text-sm text-gray-600 mr-2">12:30</span>
+<div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center">
+<i class="ri-check-line text-green-500"></i>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-gray-50 rounded p-3 border-l-4 border-secondary">
+<div class="flex justify-between items-center">
+<div>
+<p class="text-sm font-medium text-gray-800">左旋多巴 100mg</p>
+<p class="text-xs text-gray-500">晚餐后服用</p>
+</div>
+<div class="flex items-center">
+<span class="text-sm text-gray-600 mr-2">18:30</span>
+<div class="w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center">
+<i class="ri-time-line text-gray-500"></i>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- 底部导航栏统一代码（粘贴到每个HTML文件） -->
+<div class="fixed bottom-0 w-full bg-white border-t border-gray-200 grid grid-cols-5 h-16 z-50">
+  <!-- 今日 -->
+  <a href="震颤监测与报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-home-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">今日</span>
+  </a>
+
+  <!-- 历史 -->
+  <a href="月度震颤报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-history-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">历史</span>
+  </a>
+
+  <!-- 警报 -->
+  <a href="摔倒警报记录.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-alert-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">警报</span>
+  </a>
+
+  <!-- 用药 -->
+  <a href="用药管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-medicine-bottle-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">用药</span>
+  </a>
+
+  <!-- 我的 -->
+  <a href="个人信息与设备管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-user-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">我的</span>
+  </a>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// 震颤强度-时间分布图
+const tremorChart = echarts.init(document.getElementById('tremor-chart'));
+const tremorOption = {
+grid: {
+top: 10,
+right: 10,
+bottom: 20,
+left: 40
+},
+tooltip: {
+trigger: 'axis',
+formatter: function(params) {
+return `${params[0].axisValue}<br/>
+震颤强度: ${params[0].value}<br/>
+持续时间: ${Math.floor(Math.random() * 30) + 5}分钟`;
+}
+},
+xAxis: {
+type: 'category',
+boundaryGap: false,
+show: false,
+data: ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00', '06:00', '07:00', '08:00',
+'09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00',
+'18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+},
+yAxis: {
+type: 'value',
+min: 0,
+max: 5,
+interval: 1,
+axisLabel: {
+formatter: function(value) {
+const labels = ['无', '轻微', '轻度', '中度', '重度', '严重'];
+return labels[value] || '';
+}
+}
+},
+series: [
+{
+name: '震颤强度',
+type: 'line',
+smooth: true,
+lineStyle: {
+width: 3,
+color: '#A0D2DB'
+},
+areaStyle: {
+color: {
+type: 'linear',
+x: 0,
+y: 0,
+x2: 0,
+y2: 1,
+colorStops: [{
+offset: 0, color: 'rgba(160, 210, 219, 0.5)'
+}, {
+offset: 1, color: 'rgba(160, 210, 219, 0.05)'
+}]
+}
+},
+symbol: 'circle',
+symbolSize: 6,
+data: [0, 0, 0, 1, 1, 0, 0, 1, 2, 3, 2, 1, 2, 3, 5, 4, 3, 2, 1, 2, 1, 0, 0, 0],
+markPoint: {
+symbol: 'pin',
+symbolSize: 25,
+itemStyle: {
+color: '#FFB347'
+},
+data: [
+{coord: [8, 2], name: '用药'},
+{coord: [14, 5], name: '用药'},
+{coord: [18, 1], name: '用药'}
+]
+}
+}
+]
+};
+tremorChart.setOption(tremorOption);
+// 月度震颤趋势图
+const monthlyChart = echarts.init(document.getElementById('monthly-chart'));
+const monthlyOption = {
+grid: {
+top: 10,
+right: 10,
+bottom: 20,
+left: 40
+},
+tooltip: {
+trigger: 'axis',
+formatter: function(params) {
+return `${params[0].axisValue}<br/>
+震颤时长: ${params[0].value}小时<br/>
+平均强度: ${params[1].value}/5`;
+}
+},
+xAxis: {
+type: 'category',
+boundaryGap: false,
+show: false,
+data: ['5/1', '5/2', '5/3', '5/4', '5/5', '5/6', '5/7', '5/8']
+},
+yAxis: [
+{
+type: 'value',
+name: '时长',
+min: 0,
+max: 5,
+interval: 1,
+axisLabel: {
+formatter: '{value}h'
+}
+},
+{
+type: 'value',
+name: '强度',
+min: 0,
+max: 5,
+interval: 1,
+show: false
+}
+],
+series: [
+{
+name: '震颤时长',
+type: 'bar',
+barWidth: 10,
+itemStyle: {
+color: '#A0D2DB',
+borderRadius: [4, 4, 0, 0]
+},
+data: [2.8, 2.5, 3.2, 2.7, 2.3, 2.9, 2.6, 0]
+},
+{
+name: '平均强度',
+type: 'line',
+yAxisIndex: 1,
+symbol: 'circle',
+symbolSize: 6,
+itemStyle: {
+color: '#FFB347'
+},
+lineStyle: {
+width: 2,
+color: '#FFB347',
+type: 'dashed'
+},
+data: [3.2, 2.8, 3.5, 3.0, 2.5, 3.2, 3.0, 0]
+}
+]
+};
+monthlyChart.setOption(monthlyOption);
+// 窗口大小改变时重新调整图表大小
+window.addEventListener('resize', function() {
+tremorChart.resize();
+monthlyChart.resize();
+});
+});
+</script>
+</body>
+</html>

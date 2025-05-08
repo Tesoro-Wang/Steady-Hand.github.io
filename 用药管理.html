@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用药管理</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>tailwind.config={theme:{extend:{colors:{primary:"#A0D2DB",secondary:'#FFB347'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <style>
+        :where([class^="ri-"])::before { content: "\f3c2"; }
+        body {
+            font-family: 'PingFang SC', 'Helvetica Neue', Arial, sans-serif;
+        }
+        .pill-time {
+            background-color: rgba(160, 210, 219, 0.2);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            color: #4A4A4A;
+        }
+        .modal {
+            transition: opacity 0.3s ease;
+        }
+        .modal-content {
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <div class="fixed top-0 w-full bg-primary text-white z-50 shadow-sm">
+        <div class="flex justify-center items-center h-14 px-4 relative">
+            <h1 class="text-lg font-medium">用药管理</h1>
+            <div class="absolute right-4 w-8 h-8 flex items-center justify-center cursor-pointer">
+                <i class="ri-settings-3-line ri-lg"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 内容区域 -->
+    <div class="pt-16 pb-20 px-4">
+        <!-- 添加药物按钮 -->
+        <div class="mb-5 mt-4">
+            <button id="addMedicineBtn" class="w-full bg-secondary hover:bg-opacity-90 text-white py-3 rounded-button shadow-sm flex items-center justify-center cursor-pointer">
+                <i class="ri-add-line ri-lg mr-1"></i>
+                <span>添加药物</span>
+            </button>
+        </div>
+        <!-- 药物列表 -->
+        <div class="space-y-4" id="medicineList">
+            <!-- 药物卡片1 -->
+            <div class="bg-white rounded-lg shadow-sm p-4 relative">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-base">美多芭</h3>
+                        <p class="text-gray-600 text-sm mt-1">125mg (半片)</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="pill-time">08:00</span>
+                            <span class="pill-time">12:00</span>
+                            <span class="pill-time">18:00</span>
+                        </div>
+                        <p class="text-gray-500 text-xs mt-3">每日3次，餐后30分钟服用</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer edit-btn">
+                            <i class="ri-edit-line ri-lg"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer delete-btn">
+                            <i class="ri-delete-bin-line ri-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 药物卡片2 -->
+            <div class="bg-white rounded-lg shadow-sm p-4 relative">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-base">左旋多巴</h3>
+                        <p class="text-gray-600 text-sm mt-1">250mg (1片)</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="pill-time">07:30</span>
+                            <span class="pill-time">13:30</span>
+                            <span class="pill-time">19:30</span>
+                        </div>
+                        <p class="text-gray-500 text-xs mt-3">每日3次，餐前服用</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer edit-btn">
+                            <i class="ri-edit-line ri-lg"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer delete-btn">
+                            <i class="ri-delete-bin-line ri-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 药物卡片3 -->
+            <div class="bg-white rounded-lg shadow-sm p-4 relative">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-base">普拉克索</h3>
+                        <p class="text-gray-600 text-sm mt-1">0.25mg (1片)</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="pill-time">08:00</span>
+                            <span class="pill-time">20:00</span>
+                        </div>
+                        <p class="text-gray-500 text-xs mt-3">每日2次，餐后服用</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer edit-btn">
+                            <i class="ri-edit-line ri-lg"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer delete-btn">
+                            <i class="ri-delete-bin-line ri-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 药物卡片4 -->
+            <div class="bg-white rounded-lg shadow-sm p-4 relative">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-base">安坦</h3>
+                        <p class="text-gray-600 text-sm mt-1">100mg (1片)</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="pill-time">09:00</span>
+                            <span class="pill-time">15:00</span>
+                            <span class="pill-time">21:00</span>
+                        </div>
+                        <p class="text-gray-500 text-xs mt-3">每日3次，按需服用</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer edit-btn">
+                            <i class="ri-edit-line ri-lg"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer delete-btn">
+                            <i class="ri-delete-bin-line ri-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 药物卡片5 -->
+            <div class="bg-white rounded-lg shadow-sm p-4 relative">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-medium text-base">维生素B12</h3>
+                        <p class="text-gray-600 text-sm mt-1">500μg (1粒)</p>
+                        <div class="flex flex-wrap gap-2 mt-3">
+                            <span class="pill-time">08:00</span>
+                        </div>
+                        <p class="text-gray-500 text-xs mt-3">每日1次，早餐后服用</p>
+                    </div>
+                    <div class="flex space-x-2">
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer edit-btn">
+                            <i class="ri-edit-line ri-lg"></i>
+                        </div>
+                        <div class="w-8 h-8 flex items-center justify-center text-gray-500 cursor-pointer delete-btn">
+                            <i class="ri-delete-bin-line ri-lg"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 拓展功能区 -->
+        <div class="mt-6 mb-4">
+            <div class="bg-white rounded-lg shadow-sm p-4">
+                <div class="flex justify-between items-center cursor-pointer" id="expandFeaturesBtn">
+                    <h3 class="font-medium">拓展功能</h3>
+                    <i class="ri-arrow-down-s-line ri-lg text-gray-500"></i>
+                </div>
+                <div class="mt-4 space-y-3 hidden" id="expandedFeatures">
+                    <div class="flex items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <div class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-20 rounded-full mr-3">
+                            <i class="ri-calendar-line ri-lg text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-sm">用药日历</p>
+                            <p class="text-gray-500 text-xs">查看服药记录和依从性统计</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <div class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-20 rounded-full mr-3">
+                            <i class="ri-file-list-3-line ri-lg text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-sm">导出用药报告</p>
+                            <p class="text-gray-500 text-xs">生成PDF报告，方便就医时提供给医生</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <div class="w-10 h-10 flex items-center justify-center bg-primary bg-opacity-20 rounded-full mr-3">
+                            <i class="ri-notification-line ri-lg text-primary"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-sm">设置用药提醒</p>
+                            <p class="text-gray-500 text-xs">自定义提醒铃声和方式</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- 底部导航栏统一代码（粘贴到每个HTML文件） -->
+<div class="fixed bottom-0 w-full bg-white border-t border-gray-200 grid grid-cols-5 h-16 z-50">
+  <!-- 今日 -->
+  <a href="震颤监测与报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-home-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">今日</span>
+  </a>
+
+  <!-- 历史 -->
+  <a href="月度震颤报告.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-history-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">历史</span>
+  </a>
+
+  <!-- 警报 -->
+  <a href="摔倒警报记录.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-alert-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">警报</span>
+  </a>
+
+  <!-- 用药 -->
+  <a href="用药管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-medicine-bottle-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">用药</span>
+  </a>
+
+  <!-- 我的 -->
+  <a href="个人信息与设备管理.html" class="flex flex-col items-center justify-center">
+    <div class="w-7 h-7 flex items-center justify-center">
+      <i class="ri-user-line ri-xl text-gray-500"></i>
+    </div>
+    <span class="text-xs text-gray-500 mt-0.5">我的</span>
+  </a>
+</div>
+<!-- 添加/编辑药物弹窗 -->
+    <div id="medicineModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden modal">
+        <div class="bg-white rounded-lg w-11/12 max-h-[90vh] overflow-y-auto modal-content transform scale-95 opacity-0">
+            <div class="p-4 border-b border-gray-200">
+                <h2 class="text-lg font-medium" id="modalTitle">添加药物</h2>
+            </div>
+            <div class="p-4">
+                <form id="medicineForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2" for="medicineName">
+                            药品名称
+                        </label>
+                        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary" id="medicineName" type="text" placeholder="请输入药品名称">
+                    </div>
+                    
+                    <div class="mb-4 grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-2" for="dosage">
+                                单次剂量
+                            </label>
+                            <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary" id="dosage" type="text" placeholder="如：125">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-2" for="unit">
+                                单位
+                            </label>
+                            <div class="relative">
+                                <select class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary appearance-none" id="unit">
+                                    <option value="mg">mg</option>
+                                    <option value="g">g</option>
+                                    <option value="μg">μg</option>
+                                    <option value="片">片</option>
+                                    <option value="粒">粒</option>
+                                    <option value="ml">ml</option>
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                                    <i class="ri-arrow-down-s-line text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">
+                            服用频率
+                        </label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="frequency-btn py-2 border border-gray-300 rounded-md text-center focus:outline-none" data-value="1">每日1次</button>
+                            <button type="button" class="frequency-btn py-2 border border-gray-300 rounded-md text-center focus:outline-none" data-value="2">每日2次</button>
+                            <button type="button" class="frequency-btn py-2 border border-gray-300 rounded-md text-center focus:outline-none" data-value="3">每日3次</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4" id="timeSelectionContainer">
+                        <label class="block text-gray-700 text-sm font-medium mb-2">
+                            服用时间
+                        </label>
+                        <div id="timeSelections" class="space-y-3">
+                            <div class="flex items-center">
+                                <input type="time" class="time-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary" value="08:00">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-medium mb-2" for="instructions">
+                            服用说明
+                        </label>
+                        <textarea class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary" id="instructions" rows="2" placeholder="如：餐前/餐后服用，与其他药物间隔时间等"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="p-4 border-t border-gray-200 flex justify-end space-x-3">
+                <button id="cancelBtn" class="px-4 py-2 border border-gray-300 rounded-button text-gray-700 hover:bg-gray-50 cursor-pointer">取消</button>
+                <button id="saveBtn" class="px-4 py-2 bg-primary text-white rounded-button hover:bg-opacity-90 cursor-pointer">保存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 删除确认弹窗 -->
+    <div id="deleteConfirmModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden modal">
+        <div class="bg-white rounded-lg w-10/12 modal-content transform scale-95 opacity-0">
+            <div class="p-4">
+                <h2 class="text-lg font-medium text-center">确认删除</h2>
+                <p class="text-gray-600 text-center mt-2">您确定要删除这个药物记录吗？此操作无法撤销。</p>
+            </div>
+            <div class="p-4 border-t border-gray-200 flex justify-between">
+                <button id="cancelDeleteBtn" class="w-5/12 py-2 border border-gray-300 rounded-button text-gray-700 hover:bg-gray-50 cursor-pointer">取消</button>
+                <button id="confirmDeleteBtn" class="w-5/12 py-2 bg-red-500 text-white rounded-button hover:bg-opacity-90 cursor-pointer">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 操作成功提示 -->
+    <div id="successToast" class="fixed top-16 left-0 right-0 mx-auto w-10/12 bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg text-center transform -translate-y-20 transition-transform duration-300 z-50">
+        操作成功
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const addMedicineBtn = document.getElementById('addMedicineBtn');
+            const medicineModal = document.getElementById('medicineModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const medicineForm = document.getElementById('medicineForm');
+            const frequencyBtns = document.querySelectorAll('.frequency-btn');
+            const timeSelectionContainer = document.getElementById('timeSelectionContainer');
+            const timeSelections = document.getElementById('timeSelections');
+            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+            const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+            const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+            const successToast = document.getElementById('successToast');
+            const expandFeaturesBtn = document.getElementById('expandFeaturesBtn');
+            const expandedFeatures = document.getElementById('expandedFeatures');
+            const editBtns = document.querySelectorAll('.edit-btn');
+            const deleteBtns = document.querySelectorAll('.delete-btn');
+            const modalContent = medicineModal.querySelector('.modal-content');
+            // 当前编辑的药物索引
+            let currentEditIndex = -1;
+            let currentDeleteIndex = -1;
+
+            // 展开/收起拓展功能
+            expandFeaturesBtn.addEventListener('click', function() {
+                expandedFeatures.classList.toggle('hidden');
+                const arrow = expandFeaturesBtn.querySelector('i');
+                if (expandedFeatures.classList.contains('hidden')) {
+                    arrow.classList.remove('ri-arrow-up-s-line');
+                    arrow.classList.add('ri-arrow-down-s-line');
+                } else {
+                    arrow.classList.remove('ri-arrow-down-s-line');
+                    arrow.classList.add('ri-arrow-up-s-line');
+                }
+            });
+
+            // 打开添加药物弹窗
+            addMedicineBtn.addEventListener('click', function() {
+                modalTitle.textContent = '添加药物';
+                resetForm();
+                currentEditIndex = -1;
+                openModal(medicineModal);
+            });
+
+            // 关闭弹窗
+            cancelBtn.addEventListener('click', function() {
+                closeModal(medicineModal);
+            });
+
+            // 保存药物
+            saveBtn.addEventListener('click', function() {
+                // 这里应该有表单验证和数据处理逻辑
+                closeModal(medicineModal);
+                showSuccessToast(currentEditIndex === -1 ? '添加成功' : '修改成功');
+            });
+
+            // 频率按钮点击
+            frequencyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    frequencyBtns.forEach(b => b.classList.remove('bg-primary', 'text-white'));
+                    this.classList.add('bg-primary', 'text-white');
+                    
+                    const frequency = parseInt(this.dataset.value);
+                    updateTimeSelections(frequency);
+                });
+            });
+
+            // 编辑按钮点击
+            editBtns.forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    modalTitle.textContent = '编辑药物';
+                    currentEditIndex = index;
+                    // 这里应该填充表单数据
+                    // 模拟填充一些数据
+                    document.getElementById('medicineName').value = document.querySelectorAll('#medicineList > div')[index].querySelector('h3').textContent;
+                    
+                    // 选中频率按钮
+                    const timePills = document.querySelectorAll('#medicineList > div')[index].querySelectorAll('.pill-time');
+                    const frequency = timePills.length;
+                    frequencyBtns.forEach(btn => {
+                        if (parseInt(btn.dataset.value) === frequency) {
+                            btn.click();
+                        }
+                    });
+                    
+                    openModal(medicineModal);
+                });
+            });
+
+            // 删除按钮点击
+            deleteBtns.forEach((btn, index) => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentDeleteIndex = index;
+                    openModal(deleteConfirmModal);
+                });
+            });
+
+            // 取消删除
+            cancelDeleteBtn.addEventListener('click', function() {
+                closeModal(deleteConfirmModal);
+            });
+
+            // 确认删除
+            confirmDeleteBtn.addEventListener('click', function() {
+                // 这里应该有删除逻辑
+                closeModal(deleteConfirmModal);
+                showSuccessToast('删除成功');
+            });
+
+            // 更新时间选择器
+            function updateTimeSelections(frequency) {
+                timeSelections.innerHTML = '';
+                
+                const defaultTimes = ['08:00', '12:00', '18:00'];
+                
+                for (let i = 0; i < frequency; i++) {
+                    const timeInput = document.createElement('div');
+                    timeInput.className = 'flex items-center';
+                    timeInput.innerHTML = `
+                        <input type="time" class="time-input w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary" value="${defaultTimes[i] || '08:00'}">
+                    `;
+                    timeSelections.appendChild(timeInput);
+                }
+            }
+
+            // 重置表单
+            function resetForm() {
+                medicineForm.reset();
+                frequencyBtns.forEach(btn => btn.classList.remove('bg-primary', 'text-white'));
+                frequencyBtns[0].classList.add('bg-primary', 'text-white');
+                updateTimeSelections(1);
+            }
+            // 打开模态框
+            function openModal(modal) {
+                modal.classList.remove('hidden');
+                setTimeout(() => {
+                    modal.classList.add('opacity-100');
+                    const content = modal.querySelector('.modal-content');
+                    content.classList.add('opacity-100', 'scale-100');
+                    content.classList.remove('opacity-0', 'scale-95');
+                }, 10);
+            }
+
+            // 关闭模态框
+            function closeModal(modal) {
+                const content = modal.querySelector('.modal-content');
+                content.classList.remove('opacity-100', 'scale-100');
+                content.classList.add('opacity-0', 'scale-95');
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                }, 300);
+            }
+
+            // 显示成功提示
+            function showSuccessToast(message) {
+                successToast.textContent = message;
+                successToast.classList.remove('-translate-y-20');
+                successToast.classList.add('translate-y-0');
+                
+                setTimeout(() => {
+                    successToast.classList.remove('translate-y-0');
+                    successToast.classList.add('-translate-y-20');
+                }, 2000);
+            }
+
+            // 点击模态框背景关闭
+            medicineModal.addEventListener('click', function(e) {
+                if (e.target === medicineModal) {
+                    closeModal(medicineModal);
+                }
+            });
+
+            deleteConfirmModal.addEventListener('click', function(e) {
+                if (e.target === deleteConfirmModal) {
+                    closeModal(deleteConfirmModal);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
